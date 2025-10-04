@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-dark-800;
+  }
+  
+  body {
+    @apply bg-dark-950 text-white font-sans;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    background: radial-gradient(ellipse at top, #1a1a2e 0%, #0f0f23 50%, #000000 100%);
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-to-r from-fire-500 to-fire-600 hover:from-fire-600 hover:to-fire-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-fire-500 focus:ring-offset-2 focus:ring-offset-dark-950 shadow-lg hover:shadow-fire-500/25;
+  }
+  
+  .btn-secondary {
+    @apply bg-dark-800 hover:bg-dark-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 border border-dark-600 hover:border-dark-500 focus:outline-none focus:ring-2 focus:ring-dark-500 focus:ring-offset-2 focus:ring-offset-dark-950;
+  }
+  
+  .card {
+    @apply bg-dark-900 border border-dark-800 rounded-xl p-6 shadow-xl hover:shadow-fire-500/10 transition-all duration-300;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 bg-dark-800 border border-dark-700 rounded-xl text-white placeholder-dark-400 focus:outline-none focus:ring-2 focus:ring-fire-500 focus:border-transparent transition-all duration-300 hover:border-dark-600;
+  }
+  
+  .fire-gradient {
+    background: linear-gradient(135deg, #ff6b35 0%, #ef4444 25%, #dc2626 50%, #b91c1c 75%, #991b1b 100%);
+  }
+  
+  .fire-glow {
+    box-shadow: 0 0 30px rgba(239, 68, 68, 0.4), 0 0 60px rgba(239, 68, 68, 0.2);
+  }
+  
+  .ember-gradient {
+    background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 25%, #ef4444 50%, #dc2626 75%, #b91c1c 100%);
+  }
+  
+  .flame-text {
+    background: linear-gradient(45deg, #ff8c42, #ff6b35, #ef4444, #dc2626);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .fire-border {
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, #1a1a2e, #1a1a2e) padding-box,
+                linear-gradient(135deg, #ff6b35, #ef4444, #dc2626) border-box;
+  }
+  
+  .glow-effect {
+    position: relative;
+  }
+  
+  .glow-effect::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg, #ff6b35, #ef4444, #dc2626, #b91c1c);
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .glow-effect:hover::before {
+    opacity: 1;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-dark-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-fire-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-fire-500;
+}
+
+/* Age restriction banner */
+.age-banner {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  animation: pulse-slow 2s infinite;
+}
