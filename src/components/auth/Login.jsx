@@ -59,6 +59,8 @@ const Login = () => {
 
       // For development, also try with localhost fallback
       if (
+        window.location.hostname.includes("github") ||
+        window.location.hostname.includes("vercel") ||
         window.location.hostname.includes("devtunnels") ||
         window.location.hostname.includes("localhost")
       ) {
