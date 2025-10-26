@@ -36,8 +36,22 @@ const Login = () => {
 
   // Check if user is returning from email link
   React.useEffect(() => {
-    if (isSignInWithEmailLink(auth, window.location.href)) {
+    // Enhanced mobile detection and URL handling
+    const currentUrl = window.location.href;
+    console.log("Current URL:", currentUrl);
+    console.log("User Agent:", navigator.userAgent);
+    console.log(
+      "Is Mobile:",
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    );
+
+    if (isSignInWithEmailLink(auth, currentUrl)) {
+      console.log("Valid email link detected");
       setShowConfirmation(true);
+    } else {
+      console.log("No valid email link found");
     }
   }, []);
 
@@ -50,21 +64,23 @@ const Login = () => {
 
     setIsLoading(true);
     try {
+      // Get the current origin dynamically for mobile compatibility
+      const currentOrigin = window.location.origin;
+
       const actionCodeSettings = {
-        url: window.location.origin,
+        url: currentOrigin,
         handleCodeInApp: true,
         // Add additional domains for development
         dynamicLinkDomain: "fyra-network-84c30.firebaseapp.com",
       };
 
-      // For development, also try with localhost fallback
-      if (
-        window.location.hostname.includes("github") ||
-        window.location.hostname.includes("vercel") ||
-        window.location.hostname.includes("devtunnels") ||
-        window.location.hostname.includes("localhost")
-      ) {
+      // Ensure proper URL for different environments
+      if (currentOrigin.includes("vercel.app")) {
+        actionCodeSettings.url = currentOrigin;
+      } else if (currentOrigin.includes("localhost")) {
         actionCodeSettings.url = "http://localhost:3001";
+      } else {
+        actionCodeSettings.url = currentOrigin;
       }
 
       await sendSignInLinkToEmail(auth, email, actionCodeSettings);
@@ -74,6 +90,20 @@ const Login = () => {
 
       setShowConfirmation(true);
       toast.success("Login link sent to your email!");
+
+      // Additional mobile-specific instructions
+      const isMobile =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        );
+      if (isMobile) {
+        console.log(
+          "Mobile device detected - email link should work on this device"
+        );
+        toast.success("Check your email and tap the link to continue!", {
+          duration: 6000,
+        });
+      }
     } catch (error) {
       console.error("Error sending login link:", error);
       console.error("Error code:", error.code);
@@ -572,6 +602,10 @@ const Login = () => {
               <div className="text-sm text-dark-400 bg-dark-800/50 rounded-lg p-4">
                 <p className="mb-2">
                   Don't see the email? Check your spam folder.
+                </p>
+                <p className="mb-2">
+                  <strong>Mobile users:</strong> Make sure you're opening the
+                  link in the same browser where you requested it.
                 </p>
                 <p>Or enter any confirmation code</p>
               </div>
