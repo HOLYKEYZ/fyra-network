@@ -28,9 +28,14 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
 // Firestore — force long polling to avoid WebChannel 400 errors in restricted networks/adblock
+// Enhanced configuration for mobile compatibility
 export const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
   useFetchStreams: false,
+  // Additional mobile-specific settings
+  ignoreUndefinedProperties: true,
+  // Enable offline persistence for mobile
+  cacheSizeBytes: 40 * 1024 * 1024, // 40MB cache
 });
 
 // Storage
